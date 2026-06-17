@@ -4,6 +4,13 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET_CONFIG="$SCRIPT_DIR/install-targets.conf"
 WORKFLOW_FILES=(
+  "references/lane-classification.md|references/lane-classification.md"
+  "references/production-readiness-checklist.md|references/production-readiness-checklist.md"
+  "references/review-checklist.md|references/review-checklist.md"
+  "references/security-checklist.md|references/security-checklist.md"
+  "references/stage-handoff.md|references/stage-handoff.md"
+  "references/subagent-dispatch-checklist.md|references/subagent-dispatch-checklist.md"
+  "references/testing-patterns.md|references/testing-patterns.md"
   "templates/launch-template.md|launch-template.md"
   "templates/mr-template.md|mr-template.md"
   "templates/spec-template.md|spec-template.md"

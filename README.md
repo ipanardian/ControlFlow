@@ -89,9 +89,9 @@ installed files to stay live-linked to this repository.
 
 Built-in targets are configured in `install-targets.conf`:
 
-- `agents` installs skills to `~/.agents/skills` and templates to
+- `agents` installs skills to `~/.agents/skills` and workflow docs to
   `~/.agents/controlflow`.
-- `claude` installs skills to `~/.claude/skills` and templates to
+- `claude` installs skills to `~/.claude/skills` and workflow docs to
   `~/.agents/controlflow`.
 
 The `agents` target is intended for tools that discover shared Agent Skills,
