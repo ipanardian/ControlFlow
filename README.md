@@ -108,10 +108,52 @@ instruction files, and point them at `cf-intake` and
 After installation, ask your coding agent to use `cf-intake` for work that
 needs ControlFlow rigor.
 
-Example:
+Example with context:
 
 ```text
-Use cf-intake. I want to build <feature or fix>. First create the spec and test plan, then stop for approval before implementation.
+Use cf-intake.
+
+Goal: <what should change>
+Problem: <what is broken, missing, risky, or unclear>
+Context: <links, files, user report, constraints, or non-goals>
+```
+
+If you only know you want ControlFlow but do not have context yet:
+
+```text
+/cf-intake
+```
+
+The agent should ask for the missing goal, problem, and context before routing.
+
+Feature:
+
+```text
+Use cf-intake.
+
+Goal: Add saved filters to the activity page.
+Problem: Users repeat the same filter setup every visit.
+Context: Preserve existing filters and URLs. No schema migration unless needed.
+```
+
+Refactor:
+
+```text
+Use cf-intake.
+
+Goal: Refactor billing calculation into smaller units.
+Problem: Current logic is hard to review and risky to change.
+Context: Preserve current behavior. Do not change public APIs or persisted data.
+```
+
+Bugfix:
+
+```text
+Use cf-intake.
+
+Goal: Fix duplicate invoice emails.
+Problem: Users sometimes receive the same invoice email twice after checkout.
+Context: Diagnose root cause first. Prefer smallest safe fix with regression coverage.
 ```
 
 Use ControlFlow when the change has risk, ambiguity, or multiple moving parts:
