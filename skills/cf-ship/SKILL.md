@@ -89,8 +89,8 @@ external systems.
    - State when to escalate to human/operator.
 
 9. Ask for approvals separately.
-   - First ask: approve launch plan? [Y/N]
-   - Only after plan approval, ask before any production action: proceed with production action? [Y/N]
+   - First ask: approve launch plan? (y/n)
+   - Only after plan approval, ask before any production action: proceed with production action? (y/n)
    - Never treat MR approval as launch approval.
 
 ## Launch Handoff Output

@@ -30,7 +30,7 @@ Create a git commit with a Conventional Commits message.
 5. **Check for sensitive data** — Look for obvious secrets in diff: API keys, tokens, passwords, private keys, `.env` values, credentials, certificates. Stop if found.
 6. **Draft Conventional Commit message** — Use format below. Keep subject concise, imperative, lowercase after type where natural, no trailing period.
 7. **Preview before commit** — Show selected files, message, and exact command.
-8. **Ask confirmation** — Ask: `Create this commit now? [Y/N]` Continue only if user clearly confirms.
+8. **Ask confirmation** — Ask: `Create this commit now? (y/n)` Continue only if user clearly confirms.
 9. **Commit** — Run `git commit` only after confirmation. Return commit hash and final message.
 
 ## Conventional Commit Format
@@ -136,7 +136,7 @@ Files:
 git commit -m "<subject>"
 ```
 
-Create this commit now? [Y/N]
+Create this commit now? (y/n)
 ````
 
 If using a multi-line message, preview command shape as:

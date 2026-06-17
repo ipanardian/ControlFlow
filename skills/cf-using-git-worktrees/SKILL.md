@@ -36,7 +36,7 @@ The agent **does not auto-trigger** worktree usage. Pattern:
 3. If worktree would help, the agent says something like:
    > "This looks like a multi-commit, multi-day change with possible
    > interrupts. Want me to set up a worktree at
-   > `../<repo>.worktrees/feature-x/`? [Y/N] Or work in place?"
+   > `../<repo>.worktrees/feature-x/`? (y/n) Or work in place?"
 4. If user says yes → `git worktree add`
 5. If user says no → proceed in place, no re-asking later
 
@@ -50,7 +50,7 @@ the default branch, give a **soft reminder**, not a hard stop:
 
 > "Heads up — you're on `main`. For non-trivial work, a feature
 > branch (in a worktree or in place) is usually safer. Want me to
-> create one? [Y/N]
+> create one? (y/n)
 
 If user declines, proceed on mainline. **Do not refuse the task.**
 This workflow explicitly does not adopt the "stop and force worktree"

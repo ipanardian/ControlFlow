@@ -46,7 +46,7 @@ Create a GitLab MR from the current branch with reviewer-ready context.
    - MR description
    - Labels/reviewers/assignee/draft setting, if any
    - Exact `glab mr create` command to be run
-11. **Ask confirmation** — Ask: `Create this GitLab MR now? [Y/N]` Continue only if user clearly confirms.
+11. **Ask confirmation** — Ask: `Create this GitLab MR now? (y/n)` Continue only if user clearly confirms.
 12. **Create MR** — Run `glab mr create ...` only after confirmation. Return MR URL and final title/body used.
 
 ## Default MR Description Template
@@ -133,7 +133,7 @@ Assignee: `<assignee or none>`
 glab mr create ...
 ```
 
-Create this GitLab MR now? [Y/N]
+Create this GitLab MR now? (y/n)
 ````
 
 Do not proceed unless the user clearly confirms.

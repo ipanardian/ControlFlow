@@ -46,7 +46,7 @@ Create a GitHub PR from the current branch with reviewer-ready context.
     - PR body
     - Labels/reviewers/assignees/draft setting, if any
     - Exact `gh pr create` command to be run
-11. **Ask confirmation** — Ask: `Create this GitHub PR now? [Y/N]` Continue only if user clearly confirms.
+11. **Ask confirmation** — Ask: `Create this GitHub PR now? (y/n)` Continue only if user clearly confirms.
 12. **Create PR** — Run `gh pr create ...` only after confirmation. Return PR URL and final title/body used.
 
 ## Default PR Body Template
@@ -133,7 +133,7 @@ Assignees: `<assignees or none>`
 gh pr create ...
 ```
 
-Create this GitHub PR now? [Y/N]
+Create this GitHub PR now? (y/n)
 ````
 
 Do not proceed unless the user clearly confirms.

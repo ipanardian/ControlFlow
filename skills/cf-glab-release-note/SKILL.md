@@ -192,12 +192,12 @@ glab release create <tag> \
   --yes
 ```
 
-Publish these notes to GitLab now? [Y/N]
+Publish these notes to GitLab now? (y/n)
 ````
 
 ### 6. Confirm
 
-Ask: `Publish these notes to GitLab now? [Y/N]`
+Ask: `Publish these notes to GitLab now? (y/n)`
 
 If the user says `y` or otherwise confirms, proceed. If `n`,
 abort, keep the temp file (or move it to `./RELEASE_NOTES_<tag>.md`
