@@ -1,0 +1,170 @@
+---
+name: cf-glab-mr-create
+description: Create a GitLab merge request using glab CLI. Use when user asks to create, open, publish, or prepare a GitLab MR from current branch; always previews title/body/command and requires explicit confirmation before publishing.
+---
+
+Create a GitLab MR from the current branch with reviewer-ready context.
+
+## Important
+
+- Always preview the MR title, description, target branch, labels, reviewers, and exact `glab mr create` command before creating the MR.
+- Always ask the user for explicit confirmation before running `glab mr create`.
+- Do NOT create, publish, post, submit, or open an MR on GitLab without explicit user confirmation after preview.
+- Do NOT auto-merge, approve, assign auto-merge, or change merge settings.
+- Do NOT push unless the user explicitly asks. If the branch is not pushed or has no upstream, tell the user what command is needed and ask before running it.
+- Do NOT create an MR from a default branch such as `main`, `master`, `develop`, or `development` unless the user explicitly confirms that source branch.
+- Prefer the repository default branch as target when it can be determined. If unsure, ask the user for target branch.
+- If the user provides a project MR template, use it only when it is clearly present in the repository and relevant. Otherwise use the default lead-review template below.
+- Always remind the user in the preview to set the reviewer to their lead manually before confirming. Reviewer cannot be inferred from the local environment, so it stays empty by default unless the user explicitly provides a username.
+
+## Steps
+
+1. **Inspect branch and remote state** — Use only safe read-only commands first:
+   - `git rev-parse --abbrev-ref HEAD`
+   - `git remote -v`
+   - `git status --short --branch`
+   - `git branch --show-current`
+   - `git log --oneline <target>..HEAD` after target branch is known
+   - `glab repo view` when needed to infer repository metadata or default branch
+2. **Detect current GitLab user** — Run `glab api user` and read the `username` field. This is used as the default MR assignee. If the API call fails (no auth, offline, etc.), fall back to asking the user explicitly for a username or skip assignee. Never guess.
+3. **Choose target branch** — Use repository default branch if known. If not known, ask. Common defaults: `main`, `master`.
+4. **Check source branch safety** — If current branch is `main`, `master`, `develop`, or `development`, stop and ask explicit confirmation before continuing.
+5. **Draft MR title** — Prefer user-provided title. Otherwise synthesize from latest commit or branch name. Keep concise and imperative.
+6. **Draft MR description** — Use the default template. Fill what can be inferred from commits/diff. Leave unknown items blank or `Not tested` rather than inventing facts.
+7. **Add optional sections only when relevant**:
+   - `## Screenshots / Evidence` for UI, frontend, bug proof, logs, API examples, query plans, or benchmarks.
+   - `## Migration` for DB schema changes, data backfills, or rollback-limited migrations.
+   - `## API Contract` for REST, gRPC, proto, event, or public interface changes.
+   - `## Operational Impact` for infra, config, observability, deployment, queues, cron, or runtime behavior changes.
+   - `## Alternatives Considered` for large architecture or design changes.
+8. **Resolve assignee** — Default to the detected current user. If the user explicitly provides a different username, use that. If the user says "no assignee" or "unassign", omit `--assignee`. Always show the resolved value in the preview.
+9. **Prompt for reviewer** — Reviewer is not auto-detected. If the user has not already provided a reviewer username, ask: `Who is your lead to assign as reviewer? (type username, or 'skip' to leave empty)`. Use the answer in `--reviewer`. If the user says "skip" or "none", leave `Reviewers: none` in the preview.
+10. **Preview before publish** — Show:
+   - Source branch
+   - Target branch
+   - MR title
+   - MR description
+   - Labels/reviewers/assignee/draft setting, if any
+   - Exact `glab mr create` command to be run
+11. **Ask confirmation** — Ask: `Create this GitLab MR now? [Y/N]` Continue only if user clearly confirms.
+12. **Create MR** — Run `glab mr create ...` only after confirmation. Return MR URL and final title/body used.
+
+## Default MR Description Template
+
+```markdown
+## Summary
+- 
+
+## Context
+Problem:
+Approach:
+
+## Changes
+- 
+
+## Risk
+Level: Low / Medium / High
+Risk areas:
+- 
+Mitigations:
+- 
+
+## Validation
+Automated:
+- 
+Manual:
+- 
+Not tested:
+- 
+
+## Rollout
+Migration needed: No
+Feature flag: No
+Deployment order:
+Backward compatibility:
+
+## Rollback
+Rollback steps:
+Data rollback needed: No
+
+## Dependencies
+Related MRs/issues:
+
+## Review Focus
+- 
+
+## Developer Checklist
+- [ ] Code compiles and runs without errors
+- [ ] Code formatted + lint passed
+- [ ] Unit tests written and passed
+- [ ] Edge cases handled (e.g. errors, reconnect, etc.)
+- [ ] No hard-coded secrets or sensitive data
+- [ ] Docs/comments updated
+- [ ] Self-review done
+
+## Breaking Changes
+None
+```
+
+## Preview Format
+
+Before creating the MR, output this exact structure:
+
+````markdown
+## MR Preview
+
+Source branch: `<source>`
+Target branch: `<target>`
+Draft: Yes / No
+Labels: `<labels or none>`
+Reviewers: `<reviewers or none>`
+Assignee: `<assignee or none>`
+
+> Reminder: confirm the reviewer above is your lead. Add or change it now if needed.
+
+### Title
+<title>
+
+### Description
+<description>
+
+### Command
+```bash
+glab mr create ...
+```
+
+Create this GitLab MR now? [Y/N]
+````
+
+Do not proceed unless the user clearly confirms.
+
+## Command Guidance
+
+- Use `--source-branch` and `--target-branch` explicitly.
+- Use `--title` and `--description` explicitly.
+- Use `--draft` only when the user asks for draft or the MR is clearly not ready.
+- Add `--label` only when the user requests it or project convention is known.
+- Add `--reviewer` from the answer to the lead-reviewer prompt. If the user says "skip" or "none", omit `--reviewer`. Always include a `Reminder:` line in the preview telling the user to double-check the reviewer is their lead.
+- Add `--assignee` by default using the current GitLab user detected via `glab api user`. Override only when the user explicitly requests a different username or asks to leave the MR unassigned.
+- Quote shell arguments safely. If description is long, prefer a temp file only if the CLI supports it in the current environment; otherwise pass the description safely as an argument.
+
+Example command shape:
+
+```bash
+glab mr create --source-branch "feature/example" --target-branch "main" --title "Add example flow" --description "<description>" --assignee "<current-user>"
+```
+
+## Output After Creation
+
+After `glab mr create` succeeds, return:
+
+```markdown
+## MR Created
+
+URL: <url>
+Source branch: `<source>`
+Target branch: `<target>`
+Title: <title>
+```
+
+If creation fails, return the exact error and the command attempted, with secrets redacted if any are present.
