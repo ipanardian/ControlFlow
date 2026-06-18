@@ -76,6 +76,17 @@ handoff is needed.
 
 Choose the smallest safe path before work begins:
 
+If the user invokes `cf-intake` or `/cf-intake` with no goal, problem,
+or context, do not route yet. Ask for the missing intake fields:
+
+```text
+ControlFlow cf-intake is loaded. Please provide:
+
+Goal: What should change?
+Problem: What is broken, missing, risky, or unclear?
+Context: Links, files, user report, constraints, or non-goals.
+```
+
 Routing is owned by this skill. Do not treat `cf-spec-brainstorming` as a
 competing top-level entry point for ControlFlow delivery work unless the
 user explicitly asks to brainstorm only. If brainstorming is needed,
