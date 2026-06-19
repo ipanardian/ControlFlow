@@ -59,8 +59,8 @@ done
 while IFS= read -r ref; do
   check_file_ref "markdown" "$ref"
 done < <(
-  grep -RhoE '(^|[^.~[:alnum:]_/-])(references/[A-Za-z0-9._/-]+\.md|agents/[A-Za-z0-9._-]+\.md|docs/(state-machine|human-workflow-guide|roadmap)\.md|templates/(launch-template|mr-template|spec-template|test-plan-template)\.md)' "${repo_markdown_roots[@]}" 2>/dev/null \
-    | sed -E 's#^.*(references/[A-Za-z0-9._/-]+\.md|agents/[A-Za-z0-9._-]+\.md|docs/(state-machine|human-workflow-guide|roadmap)\.md|templates/(launch-template|mr-template|spec-template|test-plan-template)\.md)$#\1#' \
+  grep -RhoE '(^|[^.~[:alnum:]_/-])(references/[A-Za-z0-9._/-]+\.md|agents/[A-Za-z0-9._-]+\.md|docs/(state-machine|human-workflow-guide|roadmap)\.md|templates/(launch-template|mr-template|spec-template|test-plan-template)\.md|templates/state-template\.json)' "${repo_markdown_roots[@]}" 2>/dev/null \
+    | sed -E 's#^.*(references/[A-Za-z0-9._/-]+\.md|agents/[A-Za-z0-9._-]+\.md|docs/(state-machine|human-workflow-guide|roadmap)\.md|templates/(launch-template|mr-template|spec-template|test-plan-template)\.md|templates/state-template\.json)$#\1#' \
     | sort -u
 )
 

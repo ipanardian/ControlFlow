@@ -53,6 +53,10 @@ workflow.
   state tables, and gate explanations.
 - `scripts/skill-lint.sh` - local validation for skill metadata and path
   references.
+- `scripts/cf-transition.sh` - optional Bash state logger for durable gate and
+  evidence history.
+- `scripts/cf-rollback.sh` - optional non-destructive rollback helper that
+  stashes task work and records rollback evidence.
 - `install.sh` - installer for copying or symlinking skills and templates.
 - `install-targets.conf` - built-in install target mappings.
 
@@ -172,6 +176,30 @@ single-value config changes, small copy tweaks, or mechanical renames.
 Practical rule: if two engineers could build different valid versions, use at
 least a mini-spec. If wrong behavior could hurt users, data, security, or
 public contracts, use the full workflow.
+
+## Optional State Logging
+
+For Lane B, long-running, or production-bound work, keep a durable state log in
+`docs/specs/<slug>.state.json`:
+
+```bash
+scripts/cf-transition.sh \
+  --slug fix-duplicate-invoice-emails \
+  --to verification \
+  --reason "Implementation complete" \
+  --evidence "go test ./... passed"
+```
+
+If a TDD attempt goes wrong, stash current task work without destructive git
+commands and record rollback evidence:
+
+```bash
+scripts/cf-rollback.sh \
+  --slug fix-duplicate-invoice-emails \
+  --reason "TDD green step failed; implementation too broad"
+```
+
+See `references/state-logging.md` and `templates/state-template.json`.
 
 ## Development
 

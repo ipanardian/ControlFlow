@@ -1,0 +1,18 @@
+{
+  "schema": "controlflow-state/v1",
+  "slug": "<spec-slug>",
+  "lane": "A | B | unknown",
+  "state": "request",
+  "created_at": "YYYY-MM-DDTHH:MM:SSZ",
+  "updated_at": "YYYY-MM-DDTHH:MM:SSZ",
+  "transitions": [
+    {
+      "at": "YYYY-MM-DDTHH:MM:SSZ",
+      "from": "request",
+      "to": "spec",
+      "type": "transition",
+      "reason": "Why this transition is allowed",
+      "evidence": "Approval, command output, test result, review link, or launch evidence"
+    }
+  ]
+}

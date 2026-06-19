@@ -40,7 +40,7 @@ Use this document to answer:
 | Developer | Owns implementation, tests, diff correctness, and fixes |
 | Lead | Approves gates, scope, risk, MR creation, and launch readiness |
 | Reviewer | Independently reviews code, tests, security, API, or launch risk |
-| Operator | Executes production deploys, config changes, and runbooks |
+| SRE | Executes production deploys, config changes, and runbooks |
 
 One person may hold multiple roles in a small team, but the approval meanings
 stay separate.
@@ -100,7 +100,7 @@ flowchart TD
 | MR Created | Submit change to normal review system | MR/PR link | External review |
 | Merge Readiness | Resolve review and confirm merge safety | Approved MR/PR | Project merge policy |
 | Production Readiness | Prepare rollout, rollback, monitoring, validation | Launch handoff | Launch plan approval |
-| Production Action | Execute real production step | Operator runbook/action | Explicit production action approval |
+| Production Action | Execute real production step | SRE runbook/action | Explicit production action approval |
 | Post-Launch Validation | Confirm health after rollout | Validation evidence | No |
 | Lessons Learned | Capture workflow improvements | Notes or follow-up issues | No |
 
@@ -123,10 +123,12 @@ flowchart TD
 | Test plan template | `templates/test-plan-template.md` |
 | MR/PR template | `templates/mr-template.md` |
 | Launch template | `templates/launch-template.md` |
+| Optional state log template | `templates/state-template.json` |
 | Agent execution protocol | `skills/cf-state-machine/SKILL.md` |
 | Lane rules | `references/lane-classification.md` |
 | Review checklist | `references/review-checklist.md` |
 | Production checklist | `references/production-readiness-checklist.md` |
+| Optional state logging guide | `references/state-logging.md` |
 
 ## Production Flow
 
@@ -138,7 +140,7 @@ flowchart TD
     D --> E[Review monitoring and stop conditions]
     E --> F[Launch plan approval]
     F --> G[Wait for production action approval]
-    G --> H[Operator executes action]
+    G --> H[SRE executes action]
     H --> I[Validate startup and health]
     I --> J{Healthy?}
     J -- Yes --> K[Continue rollout]
@@ -162,6 +164,15 @@ flowchart TD
 If two engineers could build different valid versions, use at least a
 mini-spec. If wrong behavior could hurt users, data, security, or public
 contracts, use full workflow.
+
+## Optional State Logging
+
+For Lane B, long-running, or production-bound work, agents may keep a durable
+state log at `docs/specs/<slug>.state.json`. State logging is optional for small
+work and recommended when gate evidence needs to survive context compaction or
+handoff. Use `scripts/cf-transition.sh` to append transitions and
+`scripts/cf-rollback.sh` to stash failed task work without destructive git
+commands. See `references/state-logging.md`.
 
 ## Agent Boundary
 

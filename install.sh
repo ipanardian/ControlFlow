@@ -9,11 +9,15 @@ WORKFLOW_FILES=(
   "references/review-checklist.md|references/review-checklist.md"
   "references/security-checklist.md|references/security-checklist.md"
   "references/stage-handoff.md|references/stage-handoff.md"
+  "references/state-logging.md|references/state-logging.md"
   "references/subagent-dispatch-checklist.md|references/subagent-dispatch-checklist.md"
   "references/testing-patterns.md|references/testing-patterns.md"
+  "scripts/cf-rollback.sh|scripts/cf-rollback.sh"
+  "scripts/cf-transition.sh|scripts/cf-transition.sh"
   "templates/launch-template.md|launch-template.md"
   "templates/mr-template.md|mr-template.md"
   "templates/spec-template.md|spec-template.md"
+  "templates/state-template.json|state-template.json"
   "templates/test-plan-template.md|test-plan-template.md"
 )
 
