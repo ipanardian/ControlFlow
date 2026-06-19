@@ -2,9 +2,28 @@
 
 ControlFlow is a human-gated workflow for AI coding agents. It keeps
 AI-assisted software delivery moving through one auditable lifecycle:
-request → risk classification → spec → test plan → execution plan → TDD
-implementation → verification → review → MR/PR → production readiness →
-launch → lessons learned.
+request → risk classification → spec → validation scenarios → test plan →
+execution plan → TDD implementation → verification → validation scenario
+results → review → MR/PR → production readiness → launch → post-launch
+validation → lessons learned.
+
+```mermaid
+flowchart LR
+    A[Request] --> B[Risk classification]
+    B --> C[Spec]
+    C --> D[Validation scenarios]
+    D --> E[Test plan]
+    E --> F[Execution plan]
+    F --> G[TDD implementation]
+    G --> H[Verification]
+    H --> I[Validation scenario results]
+    I --> J[Review]
+    J --> K[MR/PR]
+    K --> L[Production readiness]
+    L --> M[Launch]
+    M --> N[Post-launch validation]
+    N --> O[Lessons learned]
+```
 
 It is not a generic skill pack. ControlFlow defines how agent work should move
 from idea to production while keeping humans in control of risky transitions.
