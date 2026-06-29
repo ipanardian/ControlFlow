@@ -34,6 +34,8 @@ For review feedback, load and follow `cf-post-review-fix`.
 Use `references/review-checklist.md` for Gate 2 review coverage.
 Use `references/security-checklist.md` when the diff touches security,
 auth, secrets, user input, storage, or external boundaries.
+Use `cf-code-simplification` to review for unnecessary implementation surface
+after correctness, safety, and test evidence are checked.
 
 Route specialized reviews to root reviewer personas when risk applies:
 
@@ -49,9 +51,21 @@ Before Gate 2, verify:
 - Spec acceptance criteria are satisfied
 - Required tests were run and evidence is recorded
 - Required validation scenarios were run or collected, with result and evidence recorded
+- Overengineering findings are either fixed, classified as optional, or
+  justified as necessary complexity
 - Required review findings are fixed or escalated
 - Lane B independent review requirements are met
 - Remaining risks and unverified areas are explicit
+
+When reporting overengineering, use concrete findings:
+
+- `[required]` for unnecessary dependency, schema, config, public API,
+  abstraction, or service boundary that increases risk or review cost.
+- `[test-gap]` when simplification or deletion lacks behavior-preserving test
+  evidence.
+- `[nit]` for harmless polish, naming, or one-off helper cleanup.
+- `Keep:` for complexity that protects validation, security, data integrity,
+  accessibility, observability, rollback, or a domain invariant.
 
 ## Common Rationalizations
 
@@ -61,6 +75,7 @@ Before Gate 2, verify:
 | "Spec compliance was checked during build." | Gate 2 needs fresh review of actual diff and evidence. |
 | "Unverified areas are obvious." | Unverified areas must be explicit for reviewer trust. |
 | "Human manual checks can happen after MR is opened." | Human-owned required validation scenarios must be collected before MR creation. |
+| "Small diffs cannot be overengineered." | A small diff can still add unnecessary public surface, dependency, or config. |
 
 ## Red Flags
 
@@ -70,6 +85,9 @@ Before Gate 2, verify:
 - Validation scenario results are missing for feature, bug fix, or behavior
   change.
 - Lane B lacks independent verification notes.
+- Review omits unnecessary implementation surface added by the diff.
+- Simplification advice removes safety, validation, observability,
+  accessibility, rollback, or acceptance-criteria tests.
 
 ## Verification
 
@@ -78,6 +96,8 @@ Before leaving this skill, confirm:
 - [ ] Findings are classified.
 - [ ] Required and test-gap items are fixed or escalated.
 - [ ] Tests rerun after fixes.
+- [ ] Overengineering findings are reported, marked none, or justified as
+      necessary complexity.
 - [ ] Required validation scenarios are `PASS` or explicitly `N/A` with an
       approved reason.
 - [ ] Gate 2 handoff includes risks and unverified areas.

@@ -44,6 +44,8 @@ Ensure the spec records:
 - Verifiability: cheap or expensive
 - Risk level and heavy-trigger rationale
 - Scope and non-goals
+- Minimal viable change surface: existing behavior, helper, framework/native
+  feature, or installed dependency considered before new implementation
 - Invariants and edge cases
 - Acceptance criteria
 - Validation scenarios mapped to acceptance criteria for every feature
@@ -62,6 +64,7 @@ rollback, migration, or monitoring can affect scope.
 | "Risk can be classified later." | Lane determines gates, reviewers, and execution mode. |
 | "Production impact is only for launch." | Rollout and rollback constraints can shape the spec. |
 | "Open questions can be answered during implementation." | Only topics that do not change scope, acceptance criteria, test expectations, risk, or rollout belong in Risks or the execution plan. Anything else must be answered before Gate 1 approval, or marked `out-of-scope` with an explicit boundary. |
+| "We can choose abstractions during implementation." | New public surface, dependency, schema, config, or service boundary belongs in scope when it affects risk or review. |
 
 ## Open Question Blocker
 
@@ -92,6 +95,8 @@ message, and waits.
 ## Red Flags
 
 - Spec has scope but no non-goals.
+- Spec proposes new dependency, schema, config, public API, abstraction, or
+  service boundary without a minimal-change rationale.
 - Lane B trigger exists but spec says Lane A.
 - Acceptance criteria are implementation tasks, not observable outcomes.
 - Feature addition, bug fix, or behavior change lacks validation scenarios.
@@ -105,6 +110,8 @@ Before leaving this skill, confirm:
 
 - [ ] Lane and verifiability are recorded.
 - [ ] Scope and non-goals are explicit.
+- [ ] Minimal viable change surface is recorded, including rationale for new
+      dependency, schema, config, public API, abstraction, or service boundary.
 - [ ] Invariants and edge cases are covered.
 - [ ] Acceptance criteria are testable.
 - [ ] Validation scenarios exist when behavior changes and map to
