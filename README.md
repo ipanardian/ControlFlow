@@ -71,7 +71,9 @@ workflow.
 - `docs/state-machine.md` - human-readable workflow reference with diagrams,
   state tables, and gate explanations.
 - `scripts/skill-lint.sh` - local validation for skill metadata and path
-  references.
+  references (Bash).
+- `scripts/skill-lint` - POSIX `sh` wrapper that execs the Bash script so it
+  works in shells that lack Bash-only features.
 - `scripts/cf-transition.sh` - optional Bash state logger for durable gate and
   evidence history.
 - `scripts/cf-rollback.sh` - optional non-destructive rollback helper that
@@ -226,6 +228,8 @@ Run skill validation before publishing or opening a change:
 
 ```bash
 ./scripts/skill-lint.sh
+# or, in any POSIX shell:
+./scripts/skill-lint
 ```
 
 The human-readable workflow overview lives in `docs/state-machine.md`. Agent

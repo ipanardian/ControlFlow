@@ -35,6 +35,19 @@ Do not use this skill when:
 
 Follow `cf-state-machine` for manual mode.
 
+Before writing failing tests or implementation, run a lean-change check:
+
+- Existing behavior, configuration, or docs are insufficient.
+- Existing repo pattern/helper cannot satisfy the acceptance criteria.
+- Stdlib, framework, native platform feature, or installed dependency cannot
+  safely solve it alone.
+- New dependency, schema, config, public API, abstraction, or service boundary
+  has explicit rationale if proposed.
+
+After targeted tests pass, load `cf-code-simplification` for a post-green
+simplification pass unless the diff is documentation-only or already contains
+no implementation change. Preserve tests and required safety guards.
+
 Use `references/testing-patterns.md` when designing or validating test
 evidence.
 
@@ -70,6 +83,7 @@ reviewer requirements from `cf-state-machine`.
 | "Small implementation changes do not need Gate 2 evidence." | Gate 2 needs test evidence and review notes. |
 | "Manual validation can wait until after MR creation." | MR creation is blocked until required validation scenario results exist. |
 | "Spec already says approved, so open questions are fine." | Approval is invalid while the spec or test plan has unresolved open questions. The agent re-checks Gate 1 here, blocks, and waits for decisions before any TDD work. |
+| "The new abstraction keeps things clean." | Add abstraction only when acceptance criteria, repeated real callers, or invariants justify it. |
 
 ## Open Question Blocker
 
@@ -107,15 +121,21 @@ the human already typed `approved` in chat.
   proceeds to Gate 2 or MR creation.
 - TDD or commit work starts while the spec `Open Questions` section
   still has `unresolved`, blank, or decision-less items.
+- New dependency, schema, config, public API, abstraction, or service boundary
+  appears without lean-change rationale.
+- Post-green simplification removes validation, security, observability,
+  accessibility, rollback, or acceptance-criteria tests.
 
 ## Verification
 
 Before leaving this skill, confirm:
 
 - [ ] Gate prerequisites are satisfied.
+- [ ] Lean-change check completed before implementation.
 - [ ] Manual or subagent mode is justified.
 - [ ] Failing tests were observed first when required.
 - [ ] Targeted tests pass after implementation.
+- [ ] Post-green simplification pass completed or explicitly not applicable.
 - [ ] Required validation scenarios were run by AI or collected from human
       runner, with result and evidence recorded.
 - [ ] Manual mode has pending commit preview and evidence ready for Gate 2.
