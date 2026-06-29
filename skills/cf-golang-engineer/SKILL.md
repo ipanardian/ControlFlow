@@ -57,6 +57,21 @@ wire/     → dependency injection (Wire providers)
 - Use `errgroup` for fan-out; propagate cancelation.
 - Prefer `sync.Mutex` over channels for simple state protection.
 - Never start goroutines without a clear exit condition.
+- Avoid busy loops; every retry, poll, or worker loop must block, sleep with
+  backoff, or exit on context cancelation.
+- Stop timers and tickers when done (`defer ticker.Stop()`, cancel timers when
+  needed).
+
+#### Resource lifecycle
+
+- Always close owned resources: HTTP response bodies, SQL rows, files,
+  subscriptions, streams, and iterators.
+- Always call cancel functions returned by `context.WithCancel`,
+  `context.WithTimeout`, or `context.WithDeadline` when the scope ends.
+- Avoid unbounded memory growth: cap queues, maps, slices, caches, batch sizes,
+  and worker fan-out unless the input is already bounded by an invariant.
+- For suspected CPU or memory regressions, capture evidence with benchmarks,
+  `pprof`, traces, or heap/cpu profiles before optimizing.
 
 #### Database (GORM)
 

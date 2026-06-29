@@ -34,6 +34,9 @@ For review feedback, load and follow `cf-post-review-fix`.
 Use `references/review-checklist.md` for Gate 2 review coverage.
 Use `references/security-checklist.md` when the diff touches security,
 auth, secrets, user input, storage, or external boundaries.
+Check CPU, memory, and resource lifecycle risks for changed hot paths,
+background workers, loops, caches, goroutines, timers, streams, HTTP clients,
+database cursors, files, and subscriptions.
 Use `cf-code-simplification` to review for unnecessary implementation surface
 after correctness, safety, and test evidence are checked.
 
@@ -44,13 +47,17 @@ Route specialized reviews to root reviewer personas when risk applies:
 - `agents/test-engineer.md` for coverage gaps or expensive verification.
 - `agents/api-contract-reviewer.md` for public API, proto, schema, or
   external contracts.
-- `agents/performance-auditor.md` for performance-sensitive changes.
+- `agents/performance-auditor.md` for performance-sensitive changes, suspected
+  CPU regressions, memory growth, goroutine leaks, busy loops, unbounded caches,
+  or resource lifecycle risks.
 
 Before Gate 2, verify:
 
 - Spec acceptance criteria are satisfied
 - Required tests were run and evidence is recorded
 - Required validation scenarios were run or collected, with result and evidence recorded
+- CPU, memory, goroutine, timer, stream, cursor, and body lifecycle risks were
+  checked or explicitly marked not applicable
 - Overengineering findings are either fixed, classified as optional, or
   justified as necessary complexity
 - Required review findings are fixed or escalated
@@ -86,6 +93,8 @@ When reporting overengineering, use concrete findings:
   change.
 - Lane B lacks independent verification notes.
 - Review omits unnecessary implementation surface added by the diff.
+- Review omits CPU, memory, goroutine, timer, stream, cursor, or body leak risk
+  in changed long-running or high-throughput code.
 - Simplification advice removes safety, validation, observability,
   accessibility, rollback, or acceptance-criteria tests.
 
@@ -100,6 +109,7 @@ Before leaving this skill, confirm:
       necessary complexity.
 - [ ] Required validation scenarios are `PASS` or explicitly `N/A` with an
       approved reason.
+- [ ] CPU, memory, and resource lifecycle risks are checked or explicitly `N/A`.
 - [ ] Gate 2 handoff includes risks and unverified areas.
 - [ ] Lane B reviewer requirement is satisfied or blocked.
 - [ ] Specialized reviewer persona is used when risk calls for it.
